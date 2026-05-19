@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-const Database_url = ""
 
 const DB_Connect = (Database_url)=>{
     mongoose.connect(Database_url).then(()=>{
@@ -9,3 +8,5 @@ const DB_Connect = (Database_url)=>{
         console.log(err);
     })
 }
+
+module.exports = DB_Connect;
