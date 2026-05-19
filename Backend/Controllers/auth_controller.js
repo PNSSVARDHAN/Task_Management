@@ -1,9 +1,32 @@
 const user = require("../Models/UserModel");
 const bcrypt = require("bcryptjs");
 
-const Login = (req,res)=>{
-    console.log("next");
+const Login = async (req,res)=>{
+    try{
+        const {username , password} = req.body;
+        if(!username || !password){
+            return res.send({message : "Missing Requried Fields"});
+        }
+
+        const user_data = await user.findOne({
+            $or:[
+                {email : username},
+                {name : username}
+            ]
+        });
+        if(user_data === null){
+            return res.send({message : "User Not Found"});
+        }
+        const hasing_password = await bcrypt.compare(password,user_data.password);
+        if(!hasing_password){
+            return res.send({message : "Invalid Password"});
+        }
+        return res.send({message : `welcome ${user_data.name}`});
+    }catch(err){
+        return res.send({messsage : err.message});
+    }
 }
+
 
 const Register = async (req,res)=>{
     try{
