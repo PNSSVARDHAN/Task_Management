@@ -1,5 +1,7 @@
 const user = require("../Models/UserModel");
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const Login = async (req,res)=>{
     try{
@@ -7,7 +9,6 @@ const Login = async (req,res)=>{
         if(!username || !password){
             return res.send({message : "Missing Requried Fields"});
         }
-
         const user_data = await user.findOne({
             $or:[
                 {email : username},
@@ -21,7 +22,16 @@ const Login = async (req,res)=>{
         if(!hasing_password){
             return res.send({message : "Invalid Password"});
         }
-        return res.send({message : `welcome ${user_data.name}`});
+        const token = jwt.sign(
+            {
+                userid : user_data._id
+            },
+            process.env.JWT,
+            {
+                expiresIn : "20min"
+            }
+        )
+        return res.send({message : `welcome ${user_data.name}`,jwt_token:token});
     }catch(err){
         return res.send({messsage : err.message});
     }
@@ -46,5 +56,6 @@ const Register = async (req,res)=>{
         }
     }
 }
+
 
 module.exports={Login , Register};
