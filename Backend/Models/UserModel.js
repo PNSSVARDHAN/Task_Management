@@ -24,7 +24,19 @@ const UserSchema = mongoose.Schema({
         required : true,
         enum : ["Employee","Manager","Admin"],
         default : "Employee"
-    }
+    },
+    bio : {
+        type:String,
+    },
+    skills : {
+        type : [String]
+    },
+    is_active :{
+        type : Boolean
+    },
+    last_seen :{
+        type : Date
+    },
 },{
     timestamps : true
 })

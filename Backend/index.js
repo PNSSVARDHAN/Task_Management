@@ -2,6 +2,8 @@ const express = require("express");
 const DB_CONNECT = require("./Config/DB_Connector");
 const user = require("./Models/UserModel");
 const task = require("./Models/TaskModel");
+const projects = require("./Models/ProjectsModel");
+const teams = require("./Models/TeamsModel");
 const auth_routes = require("./Routes/auth_routes");
 const task_routes = require("./Routes/TaskRoutes");
 
